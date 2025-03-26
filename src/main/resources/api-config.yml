@@ -1,0 +1,31 @@
+server:
+  port: ${PORT}
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: main
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

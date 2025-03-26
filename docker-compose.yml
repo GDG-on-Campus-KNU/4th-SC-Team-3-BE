@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pipy-application
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+    image: ${DOCKER_IMAGE}:latest
