@@ -1,18 +1,29 @@
 package pipy.node.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pipy.project.domain.Project;
 
-import java.util.UUID;
-
+@Getter
+@MappedSuperclass
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Node {
 
-    private UUID id;
-    private NodeType type;
+    @Id
+    @Column(name = "node_id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
-    public Node(final NodeType type, final Project project) {
-        this.id = UUID.randomUUID();
-        this.type = type;
+    public Node(
+        final Long id,
+        final Project project
+    ) {
+        this.id = id;
         this.project = project;
     }
 }

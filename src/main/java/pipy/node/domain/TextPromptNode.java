@@ -10,15 +10,19 @@ import pipy.project.domain.Project;
 
 @Getter
 @Entity
-@Table(name = "group_node")
+@Table(name = "text_node")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GroupNode extends Node {
+public class TextPromptNode extends Node {
+
+    private String content;
 
     @Builder
-    public GroupNode(
+    public TextPromptNode(
         final Long id,
+        final String content,
         final Project project
     ) {
         super(id, project);
+        this.content = content;
     }
 }
