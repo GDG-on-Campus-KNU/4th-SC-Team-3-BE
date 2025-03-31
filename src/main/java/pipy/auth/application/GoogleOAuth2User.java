@@ -18,7 +18,7 @@ public class GoogleOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-      return this.member.getName();
+        return this.member.getEmail();
     }
 
     @Override

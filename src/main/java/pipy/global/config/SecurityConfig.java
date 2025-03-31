@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pipy.auth.application.GoogleOAuth2UserService;
-import pipy.auth.controller.OAuth2LoginSuccessHandler;
+import pipy.auth.presentation.OAuth2LoginSuccessHandler;
 
 import java.util.Arrays;
 import java.util.List;

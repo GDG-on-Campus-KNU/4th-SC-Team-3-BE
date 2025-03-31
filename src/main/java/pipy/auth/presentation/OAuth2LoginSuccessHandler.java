@@ -1,4 +1,4 @@
-package pipy.auth.controller;
+package pipy.auth.presentation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package pipy.auth.controller;
+package pipy.auth.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
