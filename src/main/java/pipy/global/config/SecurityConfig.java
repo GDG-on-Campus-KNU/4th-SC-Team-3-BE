@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pipy.auth.application.GoogleOAuth2UserService;
+import pipy.auth.presentation.AuthorizationRequestRedirectResolver;
 import pipy.auth.presentation.OAuth2LoginSuccessHandler;
 
 import java.util.Arrays;
@@ -29,9 +30,11 @@ public class SecurityConfig {
     private final GoogleOAuth2UserService userService;
     private final OAuth2LoginSuccessHandler loginSuccessHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthorizationRequestRedirectResolver authorizationRequestRedirectResolver;
 
     public static final List<String> clients = List.of(
-      "http://localhost:5173"
+        "http://localhost:5173",
+        "https://pipy.me"
     );
 
     @Bean
@@ -42,15 +45,24 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/swagger-ui/**",
                     "/swagger-resources",
+                    "/v3/api-docs/**",
                     "/actuator/**",
                     "/oauth2/**",
                     "/auth/**",
                     "/login"
                 )
                 .permitAll()
+                .anyRequest()
+                .hasRole("USER")
             )
-            .oauth2Login(oauth2 -> oauth2.userInfoEndpoint(userInfoEndpoint ->
+            .oauth2Login(oauth2 -> oauth2.redirectionEndpoint(redirection ->
+                    redirection.baseUri("/login/oauth2/code/{registrationId}"))
+                .userInfoEndpoint(userInfoEndpoint ->
                     userInfoEndpoint.userService(userService)
+                )
+                .loginProcessingUrl("/auth/login")
+                .authorizationEndpoint(authorization ->
+                    authorization.authorizationRequestResolver(authorizationRequestRedirectResolver)
                 )
                 .successHandler(loginSuccessHandler))
             .logout(config -> config.logoutSuccessUrl("/"))

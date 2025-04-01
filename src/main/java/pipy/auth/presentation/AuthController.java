@@ -1,31 +1,27 @@
 package pipy.auth.presentation;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import static pipy.auth.presentation.AuthorizationRequestRedirectResolver.REDIRECT_PARAM_KEY;
+
 @RestController
-@Tag(name = "인증")
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthApiDocs {
 
-    @Operation(summary = "로그인", description = "구글 로그인 페이지로 리다이렉션합니다.")
-    @ApiResponse(
-        responseCode = "302",
-        description = "로그인 성공 시 '/'으로 리다이렉션",
-        content = @Content(schema = @Schema(hidden = true))
-    )
-    @GetMapping("/login")
-    public RedirectView login() {
-        final String url = "/oauth2/authorization/google";
+    @GetMapping("/login/{registrationId}")
+    public RedirectView login(
+        @PathVariable String registrationId,
+        @RequestParam(REDIRECT_PARAM_KEY) String redirect
+    ) {
+        final String url = String.format(
+            "/oauth2/authorization/%s?%s=%s",
+            registrationId,
+            REDIRECT_PARAM_KEY,
+            redirect
+        );
         return new RedirectView(url);
     }
 }

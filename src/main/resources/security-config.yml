@@ -9,7 +9,6 @@ server:
 spring:
   security:
     oauth2:
-      redirect-uri: ${PIPY_REDIRECT_URI}
       client:
         registration:
           google:
