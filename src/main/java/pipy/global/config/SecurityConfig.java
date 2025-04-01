@@ -60,7 +60,6 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfoEndpoint ->
                     userInfoEndpoint.userService(userService)
                 )
-                .loginProcessingUrl("/auth/login")
                 .authorizationEndpoint(authorization ->
                     authorization.authorizationRequestResolver(authorizationRequestRedirectResolver)
                 )

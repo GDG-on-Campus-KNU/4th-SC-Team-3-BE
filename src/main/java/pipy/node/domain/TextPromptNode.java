@@ -1,5 +1,6 @@
 package pipy.node.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -10,9 +11,10 @@ import pipy.project.domain.Project;
 
 @Getter
 @Entity
-@Table(name = "text_node")
+@Table(name = "text_prompt_node")
+@DiscriminatorValue("text_prompt")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TextPromptNode extends Node {
+public class TextPromptNode extends Node implements Analyzable {
 
     private String content;
 

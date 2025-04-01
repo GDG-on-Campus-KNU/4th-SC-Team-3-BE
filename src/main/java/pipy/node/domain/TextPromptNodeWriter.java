@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pipy.node.domain.command.NodeCommand;
 import pipy.node.domain.command.TextPromptNodeCommand;
-import pipy.node.persistence.TextPromptNodeJpaRepository;
+import pipy.node.persistence.NodeJpaRepository;
 import pipy.project.domain.Project;
 import pipy.project.domain.ProjectReader;
 
@@ -13,7 +13,7 @@ import pipy.project.domain.ProjectReader;
 public class TextPromptNodeWriter implements NodeWriter {
 
     private final ProjectReader projectReader;
-    private final TextPromptNodeJpaRepository repository;
+    private final NodeJpaRepository repository;
 
     @Override
     public boolean supports(final NodeCommand command) {
