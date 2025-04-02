@@ -5,10 +5,6 @@ on:
   push:
     branches: [ main ]
 
-env:
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GCP_WIP: ${{ secrets.GCP_WIP }}
-
 jobs:
   deploy:
     environment: main
@@ -52,8 +48,8 @@ jobs:
       - name: 'Authenticate to GCP Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          project_id: $GCP_PROJECT_ID
-          workload_identity_provider: $GCP_WIP
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.GCP_WIP }}
 
       - name: 'Set up GCP SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
