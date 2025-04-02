@@ -20,18 +20,19 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        Authentication authentication
+        final HttpServletRequest request,
+        final HttpServletResponse response,
+        final Authentication authentication
     ) throws IOException {
-        String state = request.getParameter(STATE_PARAM_KEY);
-        Map<String, String> stateParams = parseState(state);
-        String redirect = stateParams.getOrDefault(REDIRECT_PARAM_KEY, "/");
+        final String state = request.getParameter(STATE_PARAM_KEY);
+        final Map<String, String> stateParams = parseState(state);
+        final String redirect = stateParams.get(REDIRECT_PARAM_KEY);
+        if (redirect == null) return ;
         response.sendRedirect(redirect);
     }
 
     private Map<String, String> parseState(final String state) {
-        Map<String, String> params = new HashMap<>();
+        final Map<String, String> params = new HashMap<>();
         UriComponentsBuilder.fromUriString("?" + state).build()
             .getQueryParams()
             .forEach((key, value) -> params.put(key, value.getFirst()));

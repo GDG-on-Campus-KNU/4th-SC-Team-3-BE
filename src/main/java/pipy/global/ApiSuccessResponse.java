@@ -31,10 +31,9 @@ public class ApiSuccessResponse {
         private final int status;
 
         @Schema(
-            description = "응답 데이터",
-            types = { "object", "null" }
+            description = "응답 데이터"
         )
-        @JsonInclude(JsonInclude.Include.NON_ABSENT)
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private final T data;
 
         private ApiSuccessResult(final int status, final T data) {
@@ -45,6 +44,17 @@ public class ApiSuccessResponse {
         private ApiSuccessResult(final int status) {
             this.status = status;
             this.data = null;
+        }
+    }
+
+    @Getter
+    public static class ApiSuccessResultWithoutData<T> {
+
+        @Schema(description = "HTTP 상태 코드")
+        private final int status;
+
+        private ApiSuccessResultWithoutData(final int status) {
+            this.status = status;
         }
     }
 }

@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import pipy.project.domain.Project;
 
 @Getter
-@MappedSuperclass
+@Entity
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Node {
 

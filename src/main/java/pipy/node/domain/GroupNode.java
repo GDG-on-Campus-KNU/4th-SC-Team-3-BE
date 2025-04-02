@@ -1,5 +1,6 @@
 package pipy.node.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import pipy.project.domain.Project;
 @Getter
 @Entity
 @Table(name = "group_node")
+@DiscriminatorValue("group")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupNode extends Node {
 

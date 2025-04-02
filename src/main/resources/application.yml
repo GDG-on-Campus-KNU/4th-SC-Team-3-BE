@@ -5,6 +5,7 @@ spring:
       - app-config.yml
       - persistence-config.yml
       - security-config.yml
+      - openapi-config.yml
       - optional:file:.env[.properties]
 
 ---

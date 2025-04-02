@@ -9,9 +9,10 @@ import pipy.project.domain.Project;
 import java.util.List;
 
 @Entity
-@Table(name = "category_node")
+@Table(name = "category_prompt_node")
+@DiscriminatorValue("category_prompt")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CategoryPromptNode extends Node implements Groupable{
+public class CategoryPromptNode extends Node implements Groupable {
 
     @Column(name = "category_key")
     private String key;
