@@ -21,7 +21,7 @@ class NodeCommandController implements NodeCommandApiDocs {
     private final NodeCommandService nodeCommandService;
 
     @PostMapping
-    public ResponseEntity<ApiSuccessResult<Void>> addNodes(
+    public ResponseEntity<ApiSuccessResult<Void>> saveNode(
         @RequestBody final NodeRequest request
     ) {
         nodeCommandService.createNode(request);
