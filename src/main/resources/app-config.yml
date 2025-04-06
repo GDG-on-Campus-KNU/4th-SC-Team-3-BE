@@ -1,17 +1,3 @@
----
-spring:
-  config:
-    activate:
-      on-profile: local
-
 pipy:
-  base-url: http://localhost:8080
-
----
-spring:
-  config:
-    activate:
-      on-profile: main
-
-pipy:
-  base-url: https://api.pipy.site
+  storage:
+    url: ${PIPY_STORAGE_URL}

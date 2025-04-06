@@ -8,11 +8,11 @@ import pipy.image.service.ImageSaver;
 @Service
 public class DummyImageSaver implements ImageSaver {
 
-    @Value("${pipy.base-url}")
-    private String baseUrl;
+    @Value("${pipy.storage.url}")
+    private String storageUrl;
 
     @Override
     public String save(final Image image) {
-        return baseUrl + "/dummy.png";
+        return storageUrl + "/dummy.png";
     }
 }
