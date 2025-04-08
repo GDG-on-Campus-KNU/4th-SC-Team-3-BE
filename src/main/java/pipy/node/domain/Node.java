@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import pipy.edge.domain.Edge;
 import pipy.project.domain.Project;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,10 +27,10 @@ public abstract class Node {
     private Project project;
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Edge> connectedFrom;
+    private List<Edge> connectedFrom = new ArrayList<>();
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Edge> connectedTo;
+    private List<Edge> connectedTo = new ArrayList<>();
 
     public Node(
         final Long id,

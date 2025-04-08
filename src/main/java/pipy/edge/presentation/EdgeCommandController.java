@@ -12,12 +12,12 @@ import static pipy.global.ApiSuccessResponse.ApiSuccessResult;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/nodes")
+@RequestMapping("/edges")
 class EdgeCommandController implements EdgeCommandApiDocs {
 
     private final EdgeCommandService edgeCommandService;
 
-    @PostMapping("/{nodeId}/connect")
+    @PostMapping
     public ResponseEntity<ApiSuccessResult<Void>> createEdge(
         @RequestBody final CreateEdgeRequest request
     ) {
