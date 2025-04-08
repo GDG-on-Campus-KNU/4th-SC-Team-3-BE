@@ -20,7 +20,6 @@ import java.util.List;
 import static pipy.global.ApiSuccessResponse.ApiSuccessResult;
 
 @Tag(name = "노드")
-
 interface NodeCommandApiDocs {
 
     String TEXT_PROMPT =
@@ -100,6 +99,7 @@ interface NodeCommandApiDocs {
     @Parameter(name = "nodeId", description = "분석할 노드 ID", required = true)
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "노드 분석 결과가 배열로 주어집니다."),
+        @ApiResponse(responseCode = "404", description = "해당 노드를 찾을 수 없습니다."),
         @ApiResponse(
             responseCode = "422",
             description = "분석할 수 없는 노드 유형입니다.",

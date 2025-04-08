@@ -2,7 +2,6 @@ package pipy.node.domain.command;
 
 import lombok.Builder;
 import lombok.Getter;
-import pipy.project.domain.Project;
 
 import java.util.List;
 
