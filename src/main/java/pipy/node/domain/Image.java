@@ -1,4 +1,4 @@
-package pipy.image.domain;
+package pipy.node.domain;
 
 import lombok.Getter;
 

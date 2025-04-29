@@ -1,10 +1,10 @@
-package pipy.image.infrastructure;
+package pipy.node.infrastructure;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import pipy.image.domain.Image;
-import pipy.image.service.ImageGenerator;
+import pipy.node.domain.Image;
+import pipy.node.application.ImageGenerator;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;

@@ -1,9 +1,9 @@
-package pipy.image.infrastructure;
+package pipy.node.infrastructure;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pipy.image.domain.Image;
-import pipy.image.service.ImageSaver;
+import pipy.node.domain.Image;
+import pipy.node.application.ImageSaver;
 
 @Service
 public class DummyImageSaver implements ImageSaver {

@@ -1,6 +1,6 @@
-package pipy.image.service;
+package pipy.node.application;
 
-import pipy.image.domain.Image;
+import pipy.node.domain.Image;
 import reactor.core.publisher.Mono;
 
 public interface ImageGenerator {

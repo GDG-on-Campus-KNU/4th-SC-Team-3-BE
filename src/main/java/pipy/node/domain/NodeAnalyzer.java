@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface NodeAnalyzer {
 
-    List<NodeAnalyzeResult> analyze(final Analyzable analyzable);
+    List<NodeAnalyzeResult> analyze(final String content);
 }
