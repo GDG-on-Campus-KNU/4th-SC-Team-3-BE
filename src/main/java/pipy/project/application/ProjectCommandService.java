@@ -20,9 +20,9 @@ public class ProjectCommandService {
     private final ProjectWriter projectWriter;
 
     @Transactional
-    public Project createProject(final String email, final String canvas) {
+    public Project createProject(final String email, final String name) {
         final Member owner = memberReader.readByEmail(email);
-        return projectWriter.write(owner, canvas);
+        return projectWriter.write(owner, name);
     }
 
     @Transactional

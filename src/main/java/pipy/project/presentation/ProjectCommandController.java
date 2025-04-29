@@ -28,7 +28,7 @@ public class ProjectCommandController implements ProjectCommandApiDocs {
         @RequestBody final CreateProjectRequest request
     ) {
         final String email = user.getName();
-        final Project project = service.createProject(email, request.canvas());
+        final Project project = service.createProject(email, request.name());
         final CreateProjectResponse response = CreateProjectResponse.from(project);
         return ApiSuccessResponse.success(HttpStatus.CREATED, response);
     }
