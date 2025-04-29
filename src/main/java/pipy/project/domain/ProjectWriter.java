@@ -11,9 +11,10 @@ public class ProjectWriter {
 
     private final ProjectJpaRepository repository;
 
-    public Project write(final Member owner) {
+    public Project write(final Member owner, final String canvas) {
         final Project project = Project.builder()
             .owner(owner)
+            .canvas(canvas)
             .build();
         return repository.save(project);
     }
