@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pipy.member.domain.Member;
-import pipy.member.domain.MemberReader;
-import pipy.node.application.ImageSaver;
 import pipy.node.application.ImageSaveCommand;
+import pipy.node.application.ImageSaver;
 import pipy.project.domain.Project;
 import pipy.project.domain.ProjectReader;
 import pipy.project.domain.ProjectWriter;
@@ -21,16 +20,22 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class ProjectCommandService {
 
-    private final MemberReader memberReader;
     private final ProjectReader projectReader;
     private final ProjectWriter projectWriter;
 
     private final ImageSaver imageSaver;
 
     @Transactional
-    public Project createProject(final String email, final String name) {
-        final Member owner = memberReader.readByEmail(email);
-        return projectWriter.write(owner, name);
+    public Project createProject(final CreateProjectCommand command) {
+        final Member owner = command.owner();
+        final String name = command.name();
+        final String canvas = command.canvas();
+        final Project project = Project.builder()
+            .owner(owner)
+            .name(name)
+            .canvas(canvas)
+            .build();
+        return projectWriter.write(project);
     }
 
     @Transactional

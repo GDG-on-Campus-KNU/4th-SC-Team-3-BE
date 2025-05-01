@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.multipart.MultipartFile;
+import pipy.auth.application.PipyUser;
 import pipy.global.ApiSuccessResponse;
 import pipy.project.presentation.dto.request.CreateProjectRequest;
 import pipy.project.presentation.dto.response.CreateProjectResponse;
@@ -30,7 +30,7 @@ public interface ProjectCommandApiDocs {
         )
     )
     ResponseEntity<ApiSuccessResponse.ApiSuccessResult<CreateProjectResponse>> createProject(
-        OAuth2User user,
+        PipyUser user,
         CreateProjectRequest canvas
     );
 
