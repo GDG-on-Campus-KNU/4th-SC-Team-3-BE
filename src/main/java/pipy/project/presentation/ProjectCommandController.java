@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pipy.global.ApiSuccessResponse;
 import pipy.project.application.ProjectCommandService;
 import pipy.project.domain.Project;
@@ -39,6 +40,15 @@ public class ProjectCommandController implements ProjectCommandApiDocs {
         @RequestBody final JsonPatch canvas
     ) {
         service.updateCanvas(projectId, canvas);
+        return ApiSuccessResponse.success(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{projectId}/thumbnail", consumes = "multipart/form-data")
+    public ResponseEntity<ApiSuccessResult<Void>> updateThumbnail(
+        @PathVariable final Long projectId,
+        @RequestPart(value = "thumbnail") final MultipartFile thumbnail
+    ) {
+        service.updateThumbnail(projectId, thumbnail);
         return ApiSuccessResponse.success(HttpStatus.OK);
     }
 }

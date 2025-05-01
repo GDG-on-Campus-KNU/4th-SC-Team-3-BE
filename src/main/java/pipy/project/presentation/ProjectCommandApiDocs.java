@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.multipart.MultipartFile;
 import pipy.global.ApiSuccessResponse;
 import pipy.project.presentation.dto.request.CreateProjectRequest;
 import pipy.project.presentation.dto.response.CreateProjectResponse;
@@ -47,6 +48,21 @@ public interface ProjectCommandApiDocs {
     ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> updateCanvas(
         Long projectId,
         JsonPatch canvas
+    );
+
+    @Operation(summary = "프로젝트 썸네일 갱신", description = "프로젝트의 썸네일을 갱신합니다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "프로젝트 썸네일 갱신 성공")
+    })
+    @RequestBody(
+        description = "프로젝트 썸네일",
+        content = @Content(
+            mediaType = "multipart/form-data"
+        )
+    )
+    ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> updateThumbnail(
+        Long projectId,
+        MultipartFile thumbnail
     );
 }
 

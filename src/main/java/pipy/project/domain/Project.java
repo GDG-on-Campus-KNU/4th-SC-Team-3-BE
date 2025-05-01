@@ -59,4 +59,8 @@ public class Project extends BaseTimeEntity {
             throw new IllegalStateException("Failed to apply JSON patch", exception);
         }
     }
+
+    public void updateThumbnail(final String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 }
