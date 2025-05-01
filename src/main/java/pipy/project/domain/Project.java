@@ -1,9 +1,8 @@
 package pipy.project.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -51,11 +50,12 @@ public class Project extends BaseTimeEntity {
     }
 
     public void updateCanvas(final JsonPatch canvas) {
-        final JsonNode original = JsonNodeFactory.instance.objectNode().textNode(this.canvas);
+        final ObjectMapper objectMapper = new ObjectMapper();
         try {
+            final JsonNode original = objectMapper.readTree(this.canvas);
             final JsonNode patched = canvas.apply(original);
             this.canvas = patched.toString();
-        } catch (final JsonPatchException exception) {
+        } catch (final Exception exception) {
             throw new IllegalStateException("Failed to apply JSON patch", exception);
         }
     }
