@@ -1,4 +1,4 @@
-package pipy.image.service;
+package pipy.node.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

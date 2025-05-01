@@ -3,17 +3,16 @@ package pipy.node.presentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import pipy.global.ApiErrorResponse;
-import pipy.global.ApiSuccessResponse;
-import pipy.node.presentation.dto.request.NodeRequest;
+import org.springframework.web.bind.annotation.RequestParam;
+import pipy.node.presentation.dto.request.NodeAnalyzeRequest;
 import pipy.node.presentation.dto.response.NodeAnalyzeResponse;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -22,91 +21,35 @@ import static pipy.global.ApiSuccessResponse.ApiSuccessResult;
 @Tag(name = "노드")
 interface NodeCommandApiDocs {
 
-    String TEXT_PROMPT =
-        """
-        {
-          "nodeId": 1,
-          "projectId": 1,
-          "content": "사용자가 입력한 텍스트",
-          "type": "text_prompt"
-        }
-        """;
-
-    String CATEGORY_PROMPT =
-        """
-        {
-          "nodeId": 1,
-          "projectId": 1,
-          "key": "카테고리 키",
-          "value": ["카테고리 값1", "카테고리 값2"],
-          "type": "category_prompt"
-        }
-        """;
-
-    String GROUP =
-        """
-        {
-          "nodeId": 1,
-          "contents": [
-            {
-              "nodeId": 2,
-              "projectId": 1,
-              "key": "카테고리 키",
-              "value": ["카테고리 값1", "카테고리 값2"],
-              "type": "category_prompt"
-            },
-            {
-              "nodeId": 3,
-              "projectId": 1,
-              "key": "카테고리 키",
-              "value": ["카테고리 값1", "카테고리 값2"],
-              "type": "category_prompt"
-            }
-          ],
-          "type": "group"
-        }
-        """;
-
-    @Operation(summary = "노드 저장 요청", description = "노드를 저장합니다. 가능한 노드 유형에는 `text_prompt`, `category_prompt`, `group_prompt`가 있습니다.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "노드 저장 성공", content = @Content(
-            schema = @Schema(implementation = ApiSuccessResponse.ApiSuccessResultWithoutData.class)
-        )),
-    })
+    @Operation(summary = "노드 분석 요청", description = "노드를 분석합니다.")
     @RequestBody(
-        description = "노드 ID는 TSID(Time-Sorted Unique Identifier) 방식을 통해 직접 할당해주세요.",
-        required = true,
+        description = "노드 분석 요청",
         content = @Content(
             mediaType = "application/json",
-            examples = {
-                @ExampleObject(
-                    name = "텍스트 프롬프트 노드 저장 요청",
-                    value = TEXT_PROMPT
-                ),
-                @ExampleObject(
-                    name = "카테고리 프롬프트 노드 저장 요청",
-                    value = CATEGORY_PROMPT
-                ),
-                @ExampleObject(
-                    name = "그룹 노드 저장 요청",
-                    value = GROUP
-                )
-            }
-        ))
-    ResponseEntity<ApiSuccessResult<Void>> saveNode(NodeRequest request);
-
-    @Operation(summary = "노드 분석 요청", description = "노드를 분석합니다. 가능한 노드 유형에는 `text_prompt`가 있습니다.")
-    @Parameter(name = "nodeId", description = "분석할 노드 ID", required = true)
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "노드 분석 결과가 배열로 주어집니다."),
-        @ApiResponse(responseCode = "404", description = "해당 노드를 찾을 수 없습니다."),
-        @ApiResponse(
-            responseCode = "422",
-            description = "분석할 수 없는 노드 유형입니다.",
-            content = @Content(
-                schema = @Schema(implementation = ApiErrorResponse.ApiErrorResult.class)
-            )
+            schema = @Schema(implementation = NodeAnalyzeRequest.class)
         )
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "노드 분석 결과가 배열로 주어집니다.")
     })
-    ResponseEntity<ApiSuccessResult<List<NodeAnalyzeResponse>>> analyzeNode(Long nodeId);
+    ResponseEntity<ApiSuccessResult<List<NodeAnalyzeResponse>>> analyzeNode(NodeAnalyzeRequest request);
+
+    @Operation(
+        summary = "사진 생성 요청",
+        description = """
+            사진을 생성합니다. 사진 생성은 비동기적으로 진행되기 때문에, 다음과 같이 SSE(Server-Sent Events) 방식으로 결과가 전송됩니다.
+            
+            ### SSE 이벤트 흐름
+            - 사진 생성이 시작되면, `data: generate_image_start` 이벤트가 전송됩니다.
+            - 사진 생성이 완료되면, `data: { "url": "http://example.com" }`과 같이 사진 URL이 전송됩니다.
+            - `data: generate_image_end` 이벤트가 전송됩니다.
+            """
+    )
+    @Parameter(
+        name = "prompt",
+        description = "사진 생성에 사용할 프롬프트",
+        required = true,
+        example = "A beautiful sunset over the mountains"
+    )
+    Flux<String> generateImage(@RequestParam final String prompt);
 }

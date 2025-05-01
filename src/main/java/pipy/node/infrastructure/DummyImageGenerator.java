@@ -1,10 +1,10 @@
-package pipy.image.infrastructure;
+package pipy.node.infrastructure;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import pipy.image.domain.Image;
-import pipy.image.service.ImageGenerator;
+import pipy.node.application.ImageSaveCommand;
+import pipy.node.application.ImageGenerator;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -24,9 +24,13 @@ public class DummyImageGenerator implements ImageGenerator {
     }
 
     @Override
-    public Mono<Image> generate(final String prompt) {
-        final Image image = new Image(loadImage());
+    public Mono<ImageSaveCommand> generate(final String prompt) {
+        final ImageSaveCommand imageSaveCommand = new ImageSaveCommand(
+            "image/png",
+            "dummy.png",
+            loadImage()
+        );
         return Mono.delay(Duration.ofSeconds(5))
-            .thenReturn(image);
+            .thenReturn(imageSaveCommand);
     }
 }

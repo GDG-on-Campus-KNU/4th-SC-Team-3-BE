@@ -30,6 +30,13 @@ jobs:
         run: |
           touch .env
           echo "${{ secrets.ENV }}" >> .env
+          
+      - name: Create GCP key file
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "gcp-key.json"
+          json: ${{ secrets.GCP_KEY }}
 
       - name: Cache Gradle packages
         uses: gradle/actions/setup-gradle@v3
@@ -62,7 +69,7 @@ jobs:
           key: ${{ secrets.GCP_SSH_KEY }}
           host: ${{ secrets.GCP_HOST }}
           username: ${{ secrets.GCP_USERNAME }}
-          source: "docker-compose.yml, .env"
+          source: "docker-compose.yml, .env, gcp-key.json"
           target: ${{ secrets.GCP_HOME_PATH }}
 
       - name: Run docker image at Google Compute Engine

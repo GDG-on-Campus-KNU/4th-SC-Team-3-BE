@@ -1,3 +1,12 @@
 pipy:
   storage:
     url: ${PIPY_STORAGE_URL}
+
+spring:
+  cloud:
+    gcp:
+      project-id: ${GOOGLE_PROJECT_ID}
+      credentials:
+        location: ${GOOGLE_KEY_PATH}
+      storage:
+        bucket: ${GOOGLE_STORAGE_BUCKET}

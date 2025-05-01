@@ -10,12 +10,9 @@ spring:
     activate:
       on-profile: local
 
-  flyway:
-    enabled: false
-
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true
