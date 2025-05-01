@@ -10,3 +10,5 @@ services:
       - ${PORT}:${PORT}
     restart: always
     image: ${DOCKER_IMAGE}:latest
+    volumes:
+      - ./gcp-key.json:/gcp-key.json:ro

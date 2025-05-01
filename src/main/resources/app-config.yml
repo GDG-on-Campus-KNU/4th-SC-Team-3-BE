@@ -7,6 +7,6 @@ spring:
     gcp:
       project-id: ${GOOGLE_PROJECT_ID}
       credentials:
-        location: classpath:gcp-key.json
+        location: ${GOOGLE_KEY_PATH}
       storage:
         bucket: ${GOOGLE_STORAGE_BUCKET}
