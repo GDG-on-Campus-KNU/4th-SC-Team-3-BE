@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import pipy.global.domain.BaseTimeEntity;
 import pipy.member.domain.Member;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Table(name = "project")
@@ -58,6 +60,11 @@ public class Project extends BaseTimeEntity {
         } catch (final Exception exception) {
             throw new IllegalStateException("Failed to apply JSON patch", exception);
         }
+    }
+
+    public String createThumbnail() {
+        final String uuid = UUID.randomUUID().toString();
+        return String.format("%d/projects/%d/%s", owner.getId(), id, uuid);
     }
 
     public void updateThumbnail(final String thumbnail) {
