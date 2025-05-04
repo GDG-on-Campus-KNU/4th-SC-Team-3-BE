@@ -52,6 +52,10 @@ dependencies {
 	implementation 'com.github.java-json-tools:json-patch:1.13'
 
 	implementation 'com.google.cloud:spring-cloud-gcp-starter-storage'
+
+	// 이미지 처리 라이브러리
+	implementation 'com.sksamuel.scrimage:scrimage-core:4.3.1'
+	implementation 'com.sksamuel.scrimage:scrimage-webp:4.3.1'
 }
 
 test {
