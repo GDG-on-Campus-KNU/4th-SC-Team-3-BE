@@ -5,12 +5,12 @@ import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pipy.node.application.ImageSaver;
-import pipy.node.application.ImageSaveCommand;
+import pipy.node.application.StorageManager;
+import pipy.node.application.StorageSaveCommand;
 
 @Component
 @RequiredArgsConstructor
-public class GoogleStorageImageSaver implements ImageSaver {
+public class GoogleCloudStorageManager implements StorageManager {
 
     private final Storage storage;
 
@@ -21,7 +21,7 @@ public class GoogleStorageImageSaver implements ImageSaver {
     private String storageUrl;
 
     @Override
-    public String save(final ImageSaveCommand command) {
+    public String save(final StorageSaveCommand command) {
         final BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, command.filename())
             .setContentType(command.contentType())
             .build();
@@ -30,5 +30,12 @@ public class GoogleStorageImageSaver implements ImageSaver {
             command.bytes()
         );
         return String.format("%s/%s/%s", storageUrl, bucketName, command.filename());
+    }
+
+    @Override
+    public void delete(final String filename) {
+        final String objectName = filename.replace(storageUrl + "/", "");
+        final BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, objectName).build();
+        storage.delete(blobInfo.getBlobId());
     }
 }

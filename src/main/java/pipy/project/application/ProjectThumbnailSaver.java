@@ -5,8 +5,8 @@ import com.sksamuel.scrimage.webp.WebpWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import pipy.node.application.ImageSaveCommand;
-import pipy.node.application.ImageSaver;
+import pipy.node.application.StorageSaveCommand;
+import pipy.node.application.StorageManager;
 import pipy.project.domain.Project;
 import pipy.project.domain.ProjectUpdater;
 
@@ -16,18 +16,21 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ProjectThumbnailSaver {
 
-    private final ImageSaver imageSaver;
+    private final StorageManager storageManager;
     private final ProjectUpdater projectUpdater;
 
     @Async
     public void save(final Project project, final byte[] thumbnail) {
+        if (project.getThumbnail() != null) {
+            storageManager.delete(project.getThumbnail());
+        }
         final String filename = project.createThumbnail();
-        final ImageSaveCommand command = new ImageSaveCommand(
+        final StorageSaveCommand command = new StorageSaveCommand(
             "image/webp",
             filename,
             convertToWebp(thumbnail)
         );
-        final String thumbnailUrl = imageSaver.save(command);
+        final String thumbnailUrl = storageManager.save(command);
         projectUpdater.updateThumbnail(project.getId(), thumbnailUrl);
     }
 

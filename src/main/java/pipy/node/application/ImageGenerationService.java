@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ImageGenerationService {
 
     private final ImageGenerator imageGenerator;
-    private final ImageSaver imageSaver;
+    private final StorageManager storageManager;
 
     public Flux<ImageGenerationResponse> generate(
         final Member member,
@@ -42,7 +42,7 @@ public class ImageGenerationService {
     ) {
         final byte[] webp = WebpConverter.convertToWebp(image);
         final String filename = createFilename(member, projectId);
-        final ImageSaveCommand command = new ImageSaveCommand("image/webp", filename, webp);
-        return ImageGenerationResponse.generated(imageSaver.save(command));
+        final StorageSaveCommand command = new StorageSaveCommand("image/webp", filename, webp);
+        return ImageGenerationResponse.generated(storageManager.save(command));
     }
 }

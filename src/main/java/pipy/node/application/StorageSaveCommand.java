@@ -1,6 +1,6 @@
 package pipy.node.application;
 
-public record ImageSaveCommand(
+public record StorageSaveCommand(
     String contentType,
     String filename,
     byte[] bytes
