@@ -1,15 +1,16 @@
 package pipy.node.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
+import pipy.auth.application.PipyUser;
+import pipy.node.presentation.dto.request.ImageGenerationRequest;
 import pipy.node.presentation.dto.request.NodeAnalyzeRequest;
 import pipy.node.presentation.dto.response.NodeAnalyzeResponse;
 import reactor.core.publisher.Flux;
@@ -20,6 +21,51 @@ import static pipy.global.ApiSuccessResponse.ApiSuccessResult;
 
 @Tag(name = "노드")
 interface NodeCommandApiDocs {
+
+    String TEXT_PROMPT =
+        """
+        {
+          "nodeId": 1,
+          "projectId": 1,
+          "content": "사용자가 입력한 텍스트",
+          "type": "text_prompt"
+        }
+        """;
+
+    String CATEGORY_PROMPT =
+        """
+        {
+          "nodeId": 1,
+          "projectId": 1,
+          "key": "카테고리 키",
+          "value": ["카테고리 값1", "카테고리 값2"],
+          "type": "category_prompt"
+        }
+        """;
+
+    String GROUP =
+        """
+        {
+          "nodeId": 1,
+          "contents": [
+            {
+              "nodeId": 2,
+              "projectId": 1,
+              "key": "카테고리 키",
+              "value": ["카테고리 값1", "카테고리 값2"],
+              "type": "category_prompt"
+            },
+            {
+              "nodeId": 3,
+              "projectId": 1,
+              "key": "카테고리 키",
+              "value": ["카테고리 값1", "카테고리 값2"],
+              "type": "category_prompt"
+            }
+          ],
+          "type": "group"
+        }
+        """;
 
     @Operation(summary = "노드 분석 요청", description = "노드를 분석합니다.")
     @RequestBody(
@@ -45,11 +91,25 @@ interface NodeCommandApiDocs {
             - `data: generate_image_end` 이벤트가 전송됩니다.
             """
     )
-    @Parameter(
-        name = "prompt",
-        description = "사진 생성에 사용할 프롬프트",
+    @RequestBody(
+        description = "사진 생성 요청",
         required = true,
-        example = "A beautiful sunset over the mountains"
-    )
-    Flux<String> generateImage(@RequestParam final String prompt);
+        content = @Content(
+            mediaType = "application/json",
+            examples = {
+                @ExampleObject(
+                    name = "텍스트 프롬프트 노드",
+                    value = TEXT_PROMPT
+                ),
+                @ExampleObject(
+                    name = "카테고리 프롬프트 노드",
+                    value = CATEGORY_PROMPT
+                ),
+                @ExampleObject(
+                    name = "그룹 노드",
+                    value = GROUP
+                )
+            }
+        ))
+    Flux<String> generateImage(PipyUser user, ImageGenerationRequest request);
 }
