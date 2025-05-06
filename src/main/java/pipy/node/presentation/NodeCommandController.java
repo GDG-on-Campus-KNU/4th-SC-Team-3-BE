@@ -30,7 +30,7 @@ class NodeCommandController implements NodeCommandApiDocs {
     private final NodeCommandService nodeCommandService;
     private final ImageGenerationService imageGenerationService;
 
-    @GetMapping("/analyze")
+    @PostMapping("/analyze")
     public ResponseEntity<ApiSuccessResult<List<NodeAnalyzeResponse>>> analyzeNode(
         @RequestBody final NodeAnalyzeRequest request
     ) {
