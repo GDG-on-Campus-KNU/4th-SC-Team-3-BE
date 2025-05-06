@@ -99,7 +99,7 @@ interface NodeCommandApiDocs {
             
             ### SSE 이벤트 흐름
             - 사진 생성이 시작되면, `{ "event": "generate_image_start" }` 이벤트가 전송됩니다.
-            - 사진 생성이 완료되면, `{ "event": "generated_image", "data": { "url": "http://example.com" }`과 같이 사진 URL이 전송됩니다.
+            - 사진 생성이 완료되면, `{ "event": "generated_image", "data": { "url": "http://example.com" } }`과 같이 사진 URL이 전송됩니다.
             - `{ "event": "generate_image_end" }` 이벤트가 전송됩니다.
             """
     )
