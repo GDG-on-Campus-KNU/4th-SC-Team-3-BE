@@ -1,8 +1,8 @@
 package pipy.node.domain;
 
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface NodeAnalyzer {
 
-    List<NodeAnalyzeResult> analyze(final String content);
+    Flux<NodeAnalyzeResult> analyze(final String content);
 }
