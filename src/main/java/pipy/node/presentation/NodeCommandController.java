@@ -14,6 +14,7 @@ import pipy.node.application.ImageGenerationService;
 import pipy.node.application.NodeCommandService;
 import pipy.node.presentation.dto.request.ImageGenerationRequest;
 import pipy.node.presentation.dto.request.NodeAnalyzeRequest;
+import pipy.node.presentation.dto.response.ImageGenerationResponse;
 import pipy.node.presentation.dto.response.NodeAnalyzeResponse;
 import reactor.core.publisher.Flux;
 
@@ -39,7 +40,7 @@ class NodeCommandController implements NodeCommandApiDocs {
     }
 
     @PostMapping(value = "/generate/image", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> generateImage(
+    public Flux<ImageGenerationResponse> generateImage(
         @AuthenticationPrincipal final PipyUser user,
         @RequestBody final ImageGenerationRequest request
     ) {

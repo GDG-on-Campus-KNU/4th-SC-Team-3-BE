@@ -16,6 +16,9 @@ public class WebClientConfig {
         return WebClient.builder()
             .baseUrl(aiUrl)
             .defaultHeader("Content-Type", "application/json")
+            .codecs(configurer ->
+                configurer.defaultCodecs().maxInMemorySize(2 * 1024 * 1024) // 2MB
+            )
             .build();
     }
 }
