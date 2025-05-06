@@ -70,4 +70,12 @@ public class Project extends BaseTimeEntity {
     public void updateThumbnail(final String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public boolean isOwner(final Member member) {
+        return this.owner.equals(member);
+    }
+
+    public void updateName(final String name) {
+        this.name = name;
+    }
 }

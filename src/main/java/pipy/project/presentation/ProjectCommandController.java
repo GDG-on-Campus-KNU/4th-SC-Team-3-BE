@@ -14,6 +14,7 @@ import pipy.project.application.CreateProjectCommand;
 import pipy.project.application.ProjectCommandService;
 import pipy.project.domain.Project;
 import pipy.project.presentation.dto.request.CreateProjectRequest;
+import pipy.project.presentation.dto.request.UpdateProjectNameRequest;
 import pipy.project.presentation.dto.response.CreateProjectResponse;
 
 import static pipy.global.ApiSuccessResponse.ApiSuccessResult;
@@ -43,19 +44,44 @@ public class ProjectCommandController implements ProjectCommandApiDocs {
 
     @PatchMapping(value = "/{projectId}/canvas", consumes = "application/json-patch+json")
     public ResponseEntity<ApiSuccessResult<Void>> updateCanvas(
+        @AuthenticationPrincipal final PipyUser user,
         @PathVariable final Long projectId,
         @RequestBody final JsonPatch canvas
     ) {
-        service.updateCanvas(projectId, canvas);
+        final Member member = user.getMember();
+        service.updateCanvas(member, projectId, canvas);
         return ApiSuccessResponse.success(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{projectId}/thumbnail", consumes = "multipart/form-data")
     public ResponseEntity<ApiSuccessResult<Void>> updateThumbnail(
+        @AuthenticationPrincipal final PipyUser user,
         @PathVariable final Long projectId,
         @RequestPart(value = "thumbnail") final MultipartFile thumbnail
     ) {
-        service.updateThumbnail(projectId, thumbnail);
+        final Member member = user.getMember();
+        service.updateThumbnail(member, projectId, thumbnail);
+        return ApiSuccessResponse.success(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{projectId}/name")
+    public ResponseEntity<ApiSuccessResult<Void>> updateName(
+        @AuthenticationPrincipal final PipyUser user,
+        @PathVariable final Long projectId,
+        @RequestBody final UpdateProjectNameRequest request
+    ) {
+        final Member member = user.getMember();
+        service.updateName(member, projectId, request.name());
+        return ApiSuccessResponse.success(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{projectId}")
+    public ResponseEntity<ApiSuccessResult<Void>> deleteProject(
+        @AuthenticationPrincipal final PipyUser user,
+        @PathVariable final Long projectId
+    ) {
+        final Member member = user.getMember();
+        service.deleteProject(member, projectId);
         return ApiSuccessResponse.success(HttpStatus.OK);
     }
 }

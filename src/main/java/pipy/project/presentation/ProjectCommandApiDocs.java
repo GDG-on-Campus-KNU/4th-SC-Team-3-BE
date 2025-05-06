@@ -2,6 +2,7 @@ package pipy.project.presentation;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pipy.auth.application.PipyUser;
 import pipy.global.ApiSuccessResponse;
 import pipy.project.presentation.dto.request.CreateProjectRequest;
+import pipy.project.presentation.dto.request.UpdateProjectNameRequest;
 import pipy.project.presentation.dto.response.CreateProjectResponse;
 
 @Tag(name = "프로젝트")
@@ -38,6 +40,12 @@ public interface ProjectCommandApiDocs {
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "프로젝트 캔버스 저장 성공")
     })
+    @Parameter(
+        name = "projectId",
+        description = "프로젝트 ID",
+        required = true,
+        example = "1"
+    )
     @RequestBody(
         description = "프로젝트 캔버스 저장 요청. JSON Patch 형식(RFC 6902)을 따라야 합니다.",
         content = @Content(
@@ -46,6 +54,7 @@ public interface ProjectCommandApiDocs {
         )
     )
     ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> updateCanvas(
+        PipyUser user,
         Long projectId,
         JsonPatch canvas
     );
@@ -54,6 +63,12 @@ public interface ProjectCommandApiDocs {
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "프로젝트 썸네일 갱신 성공")
     })
+    @Parameter(
+        name = "projectId",
+        description = "프로젝트 ID",
+        required = true,
+        example = "1"
+    )
     @RequestBody(
         description = "프로젝트 썸네일",
         content = @Content(
@@ -61,8 +76,47 @@ public interface ProjectCommandApiDocs {
         )
     )
     ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> updateThumbnail(
+        PipyUser user,
         Long projectId,
         MultipartFile thumbnail
+    );
+
+    @Operation(summary = "프로젝트 이름 수정", description = "프로젝트의 이름을 수정합니다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "프로젝트 이름 수정 성공")
+    })
+    @Parameter(
+        name = "projectId",
+        description = "프로젝트 ID",
+        required = true,
+        example = "1"
+    )
+    @RequestBody(
+        description = "프로젝트 이름 수정 요청",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = UpdateProjectNameRequest.class)
+        )
+    )
+    ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> updateName(
+        PipyUser user,
+        Long projectId,
+        UpdateProjectNameRequest request
+    );
+
+    @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제합니다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
+    })
+    @Parameter(
+        name = "projectId",
+        description = "프로젝트 ID",
+        required = true,
+        example = "1"
+    )
+    ResponseEntity<ApiSuccessResponse.ApiSuccessResult<Void>> deleteProject(
+        PipyUser user,
+        Long projectId
     );
 }
 
