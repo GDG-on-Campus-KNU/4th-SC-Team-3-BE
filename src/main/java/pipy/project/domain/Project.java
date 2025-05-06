@@ -72,7 +72,7 @@ public class Project extends BaseTimeEntity {
     }
 
     public boolean isOwner(final Member member) {
-        return this.owner.equals(member);
+        return this.owner.getId().equals(member.getId());
     }
 
     public void updateName(final String name) {
