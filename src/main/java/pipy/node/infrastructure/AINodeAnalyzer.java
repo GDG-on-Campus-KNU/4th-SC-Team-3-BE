@@ -21,7 +21,8 @@ public class AINodeAnalyzer implements NodeAnalyzer {
             .bodyValue(request)
             .retrieve()
             .bodyToMono(NodeAnalyzeResult[].class)
-            .flatMapMany(Flux::fromArray);
+            .flatMapMany(Flux::fromArray)
+            .filter(result -> !result.value().isEmpty());
     }
 
     private record NodeAnalyzeRequest(String content) {
