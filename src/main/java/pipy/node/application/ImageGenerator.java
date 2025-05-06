@@ -2,7 +2,9 @@ package pipy.node.application;
 
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 public interface ImageGenerator {
 
-    Mono<ImageSaveCommand> generate(String prompt);
+    Mono<byte[]> generate(List<ImageGenerationPrompt> request);
 }

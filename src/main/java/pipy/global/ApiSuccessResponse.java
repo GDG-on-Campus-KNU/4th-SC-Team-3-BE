@@ -33,7 +33,7 @@ public class ApiSuccessResponse {
         @Schema(
             description = "응답 데이터"
         )
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private final T data;
 
         private ApiSuccessResult(final int status, final T data) {
