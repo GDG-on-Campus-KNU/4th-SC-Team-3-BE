@@ -1,6 +1,7 @@
 package pipy.node.application;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pipy.global.utils.WebpConverter;
 import pipy.member.domain.Member;
@@ -11,12 +12,15 @@ import reactor.core.scheduler.Schedulers;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ImageGenerationService {
 
     private final ImageGenerator imageGenerator;
     private final StorageManager storageManager;
+
+    private static final String ERROR_MESSAGE = "프롬프트가 부족해 이미지를 생성할 수 없습니다. 원하는 이미지에 대해 조금 더 자세히 설명해 주세요.";
 
     public Flux<ImageGenerationResponse> generate(
         final Member member,
@@ -27,6 +31,7 @@ public class ImageGenerationService {
             .concatWith(imageGenerator.generate(prompts)
                 .publishOn(Schedulers.boundedElastic())
                 .map(image -> saveImage(member, projectId, image))
+                .onErrorReturn(ImageGenerationResponse.error(ERROR_MESSAGE))
             .concatWith(Flux.just(ImageGenerationResponse.end())));
     }
 

@@ -7,19 +7,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ImageGenerationResponse(
     @Schema(description = "이벤트") String event,
-    @Schema(description = "데이터") ImageUrlResponse data
+    @Schema(description = "데이터") ImageUrlResponse data,
+    @Schema(description = "에러 메시지") String message
 ) {
 
     public static ImageGenerationResponse start() {
-        return new ImageGenerationResponse("generate_image_start", null);
+        return new ImageGenerationResponse("generate_image_start", null, null);
     }
 
     public static ImageGenerationResponse end() {
-        return new ImageGenerationResponse("generate_image_end", null);
+        return new ImageGenerationResponse("generate_image_end", null, null);
     }
 
     public static ImageGenerationResponse generated(final String url) {
-        return new ImageGenerationResponse("generated_image", new ImageUrlResponse(url));
+        return new ImageGenerationResponse("generated_image", new ImageUrlResponse(url), null);
+    }
+
+    public static ImageGenerationResponse error(final String message) {
+        return new ImageGenerationResponse("error", null, message);
     }
 }
 
