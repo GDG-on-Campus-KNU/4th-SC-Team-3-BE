@@ -14,7 +14,4 @@ import lombok.Getter;
 })
 @Schema(description = "노드 생성 요청")
 public abstract class NodeRequest {
-
-    @Schema(description = "노드 ID")
-    private Long nodeId;
 }

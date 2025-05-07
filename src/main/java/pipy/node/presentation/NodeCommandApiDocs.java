@@ -29,7 +29,6 @@ interface NodeCommandApiDocs {
           "projectId": 1,
           "nodes": [
             {
-              "nodeId": 1,
               "content": "분홍색 머리카락을 가진 고등학생 소녀가 학교 밴드부에서 기타를 치다가 기타 줄이 끊어진 모습",
               "type": "text_prompt"
             }
@@ -43,7 +42,6 @@ interface NodeCommandApiDocs {
           "projectId": 1,
           "nodes": [
             {
-              "nodeId": 1,
               "key": "카테고리 키",
               "value": ["카테고리 값1", "카테고리 값2"],
               "type": "category_prompt"
@@ -58,16 +56,13 @@ interface NodeCommandApiDocs {
           "projectId": 1,
           "nodes": [
             {
-              "nodeId": 1,
               "contents": [
                 {
-                  "nodeId": 2,
                   "key": "카테고리 키",
                   "value": ["카테고리 값1", "카테고리 값2"],
                   "type": "category_prompt"
                 },
                 {
-                  "nodeId": 3,
                   "key": "카테고리 키",
                   "value": ["카테고리 값1", "카테고리 값2"],
                   "type": "category_prompt"
