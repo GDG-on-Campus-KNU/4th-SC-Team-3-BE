@@ -7,6 +7,7 @@ import pipy.global.utils.WebpConverter;
 import pipy.member.domain.Member;
 import pipy.node.presentation.dto.response.ImageGenerationResponse;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
@@ -20,8 +21,6 @@ public class ImageGenerationService {
     private final ImageGenerator imageGenerator;
     private final StorageManager storageManager;
 
-    private static final String ERROR_MESSAGE = "프롬프트가 부족해 이미지를 생성할 수 없습니다. 원하는 이미지에 대해 조금 더 자세히 설명해 주세요.";
-
     public Flux<ImageGenerationResponse> generate(
         final Member member,
         final Long projectId,
@@ -31,7 +30,7 @@ public class ImageGenerationService {
             .concatWith(imageGenerator.generate(prompts)
                 .publishOn(Schedulers.boundedElastic())
                 .map(image -> saveImage(member, projectId, image))
-                .onErrorReturn(ImageGenerationResponse.error(ERROR_MESSAGE))
+                .onErrorResume(error -> Mono.just(ImageGenerationResponse.error(error.getMessage())))
             .concatWith(Flux.just(ImageGenerationResponse.end())));
     }
 
