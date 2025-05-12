@@ -1,0 +1,55 @@
+@startuml
+
+left to right direction
+
+actor "User" as user
+
+rectangle Pipy {
+  usecase "Create Project" as create_project
+  usecase "Get Project List" as get_project_list
+  usecase "Get Project Info" as get_project
+  usecase "Edit Project Name" as edit_project
+  usecase "Delete Project" as delete_project
+
+  usecase "Create Node" as create_node
+  usecase "Create Input Node" as create_input_node
+  usecase "Create Output Node" as create_output_node
+
+  usecase "Get Node List" as get_node_list
+
+  usecase "Delete Node" as delete_node
+  usecase "Connect Nodes" as connect_nodes
+  usecase "Disconnect Nodes" as disconnect_nodes
+
+  usecase "Generate" as generate
+  usecase "Generate Image" as generate_image
+  usecase "Generate Text" as generate_text
+
+  usecase "Analyze Prompt" as analyze_prompt
+
+
+}
+
+user --> create_project
+user --> get_project_list
+user --> get_project
+user --> edit_project
+user --> delete_project
+
+user --> create_node
+
+user --> get_node_list
+
+user --> generate
+generate --> generate_image : <<extend>>
+generate --> generate_text : <<extend>>
+
+user --> analyze_prompt
+create_node --> create_input_node : <<extend>>
+create_node --> create_output_node : <<extend>>
+
+user --> delete_node
+user --> connect_nodes
+user --> disconnect_nodes
+
+@enduml
