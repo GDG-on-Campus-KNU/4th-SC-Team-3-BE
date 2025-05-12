@@ -1,6 +1,7 @@
 package pipy.node.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
@@ -44,7 +45,15 @@ public class AINodeAnalyzer implements NodeAnalyzer {
             .filter(result -> !result.value().isEmpty());
     }
 
-    private record NodeAnalyzeRequest(String content) {
+    @Getter
+    private static class NodeAnalyzeRequest {
+
+        private final String type = "text";
+        private final String content;
+
+        public NodeAnalyzeRequest(final String content) {
+            this.content = content;
+        }
     }
 
     private String mapToString(final NodeAnalyzeRequest request) {
