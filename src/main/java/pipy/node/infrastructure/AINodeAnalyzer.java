@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -21,11 +22,15 @@ public class AINodeAnalyzer implements NodeAnalyzer {
     private final WebClient webClient;
     private final ObjectMapper mapper;
 
+    @Value("${pipy.ai.token}")
+    private String token;
+
     @Override
     public Flux<NodeAnalyzeResult> analyze(final String content) {
         final NodeAnalyzeRequest request = new NodeAnalyzeRequest(content);
         return webClient.post()
             .uri("/analyze")
+            .header("X-Api-Key", token)
             .bodyValue(request)
             .retrieve()
             .onStatus(HttpStatusCode::is4xxClientError, response -> response.bodyToMono(String.class)

@@ -3,6 +3,7 @@ pipy:
     url: ${PIPY_STORAGE_URL}
   ai:
     url: ${PIPY_AI_URL}
+    token: ${PIPY_AI_TOKEN}
 
 spring:
   cloud:
