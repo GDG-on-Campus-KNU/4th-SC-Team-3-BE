@@ -44,12 +44,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     "/swagger-ui/**",
-                    "/swagger-resources",
                     "/v3/api-docs/**",
-                    "/actuator/**",
                     "/oauth2/**",
                     "/auth/**",
-                    "/login"
+                    "/login",
+                    "/health"
                 )
                 .permitAll()
                 .anyRequest()

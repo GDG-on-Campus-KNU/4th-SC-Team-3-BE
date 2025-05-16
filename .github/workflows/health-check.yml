@@ -1,0 +1,25 @@
+name: "Health Check"
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Application Healths
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: ${{ secrets.APPLICATION_SERVER_HEALTH_CHECK_URL }}
+          max-attempts: 3
+          retry-delay: 1s
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          raw-data: ./docs/health-check.json

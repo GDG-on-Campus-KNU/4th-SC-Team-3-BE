@@ -1,0 +1,25 @@
+@startuml
+|User|
+start
+:Google Login;
+:Login Success;
+:Create Project;
+|System|
+:Save Project;
+|User|
+:Open Node Menu;
+:Select Node;
+:Connect Input Node;
+:Connect Output Node;
+:Write Prompt;
+|System|
+:Save Prompt;
+|User|
+:Click Run Button;
+|System|
+:Execute Process;
+:Generate Result;
+|User|
+:View Result;
+stop
+@enduml
